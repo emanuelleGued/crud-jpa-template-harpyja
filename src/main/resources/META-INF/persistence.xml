@@ -8,6 +8,13 @@
 
 		<!-- TODO: Adicionar as entidades que vocês criaram -->
 		<!-- <class>br.edu.ifpb.es.daw.entities.Book</class> -->
+		<class>br.edu.ifpb.es.daw.entities.Activity</class>
+		<class>br.edu.ifpb.es.daw.entities.Address</class>
+		<class>br.edu.ifpb.es.daw.entities.Gestures</class>
+		<class>br.edu.ifpb.es.daw.entities.Organization</class>
+		<class>br.edu.ifpb.es.daw.entities.Project</class>
+		<class>br.edu.ifpb.es.daw.entities.SessionEntity</class>
+		<class>br.edu.ifpb.es.daw.entities.User</class>
 
 		<properties>
 
@@ -15,9 +22,9 @@
 			<!--
 			 -->
 			<property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/daw" />
-			<property name="jakarta.persistence.jdbc.user" value="daw" />
-			<property name="jakarta.persistence.jdbc.password" value="daw" />
+			<property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://ep-hidden-bread-a490jq4b-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require" />
+			<property name="jakarta.persistence.jdbc.user" value="neondb_owner" />
+			<property name="jakarta.persistence.jdbc.password" value="npg_NGRbCO73qVUF" />
 			<!-- /Database PostgreSQL-->
 
 			<!-- HIBERNATE -->
