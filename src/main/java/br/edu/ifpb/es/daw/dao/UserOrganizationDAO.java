@@ -1,8 +1,8 @@
 package br.edu.ifpb.es.daw.dao;
 
 import br.edu.ifpb.es.daw.entities.UserOrganization;
+import br.edu.ifpb.es.daw.entities.UserOrganizationId;
 
-import java.util.UUID;
 
-public interface UserOrganizationDAO extends DAO<UserOrganization, UUID> {
+public interface UserOrganizationDAO extends DAO<UserOrganization, UserOrganizationId> {
 }
