@@ -17,19 +17,20 @@ public class Address {
     private String street;
     private String zip;
 
-    @Column(name = "organization_id")
-    private UUID organizationId;
+    @OneToOne
+    @JoinColumn(name = "organization_id", referencedColumnName = "id", unique = true)
+    private Organization organization;
 
     public Address() {
     }
 
-    public Address(UUID id, String country, String city, String street, String zip, UUID organizationId) {
+    public Address(UUID id, String country, String city, String street, String zip, Organization organization) {
         this.id = id;
         this.country = country;
         this.city = city;
         this.street = street;
         this.zip = zip;
-        this.organizationId = organizationId;
+        this.organization = organization;
     }
 
     public UUID getId() {
@@ -72,12 +73,12 @@ public class Address {
         this.zip = zip;
     }
 
-    public UUID getOrganizationId() {
-        return organizationId;
+    public Organization getOrganization() {
+        return organization;
     }
 
-    public void setOrganizationId(UUID organizationId) {
-        this.organizationId = organizationId;
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
     @Override
@@ -101,6 +102,7 @@ public class Address {
                 ", city=" + city +
                 ", street=" + street +
                 ", zip=" + zip +
+                ", organization=" + organization +
                 '}';
     }
 }

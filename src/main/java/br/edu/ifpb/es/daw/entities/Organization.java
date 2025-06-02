@@ -3,6 +3,8 @@ package br.edu.ifpb.es.daw.entities;
 import br.edu.ifpb.es.daw.entities.enums.OrganizationStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,7 +12,7 @@ import java.util.UUID;
 @Table(name = "organizations")
 public class Organization {
     @Id
-    @Column(name = "id", nullable = false, updatable = false)
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "UUID")
     private UUID id;
 
     @Column(length = 255)
@@ -26,16 +28,24 @@ public class Organization {
     @Column(name = "business_size")
     private String businessSize;
 
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects;
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserOrganization> users;
+
     public Organization() {
     }
 
     public Organization(UUID id, String name, LocalDateTime registrationDate,
-                        OrganizationStatus status, String businessSize) {
+                        OrganizationStatus status, String businessSize, List<Project> projects, List<UserOrganization> users) {
         this.id = id;
         this.name = name;
         this.registrationDate = registrationDate;
         this.status = status;
         this.businessSize = businessSize;
+        this.projects = projects;
+        this.users = users;
     }
 
     public UUID getId() {
@@ -78,6 +88,30 @@ public class Organization {
         this.businessSize = businessSize;
     }
 
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public List<UserOrganization> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserOrganization> users) {
+        this.users = users;
+    }
+
+    public void addUserOrganization(UserOrganization userOrg) {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+        userOrg.setOrganization(this);
+        this.users.add(userOrg);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,6 +133,8 @@ public class Organization {
                 ", registrationDate=" + registrationDate +
                 ", status=" + status +
                 ", businessSize=" + businessSize +
+                ", projects=" + (projects != null ? projects.size() : 0) +
+                ", users=" + (users != null ? users.size() : 0) +
                 '}';
     }
 }

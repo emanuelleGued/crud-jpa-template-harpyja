@@ -16,13 +16,25 @@ public class UserProject {
     @Column(name = "role")
     private ProjectRole role;
 
+    @MapsId("userId")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @MapsId("projectId")
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
 
     public UserProject() {
     }
 
-    public UserProject(UserProjectId id, ProjectRole role) {
+    public UserProject(UserProjectId id, ProjectRole role, User user, Project project) {
         this.id = id;
         this.role = role;
+        this.user = user;
+        this.project = project;
     }
 
     public UserProjectId getId() {
@@ -37,6 +49,22 @@ public class UserProject {
     }
     public void setRole(ProjectRole role) {
         this.role = role;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Override
@@ -57,6 +85,8 @@ public class UserProject {
         return "Address{" +
                 "id=" + id +
                 ", role='" + role + '\'' +
+                ", user='" + user +
+                ", project='" + project +
                 '}';
     }
 

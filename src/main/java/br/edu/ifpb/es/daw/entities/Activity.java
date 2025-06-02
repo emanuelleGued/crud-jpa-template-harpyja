@@ -14,25 +14,26 @@ public class Activity {
 
     @Column(name = "activity_name")
     private String activityName;
-
-    @Column(name = "session_id")
-    private UUID sessionId;
-
+    
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "session_id", referencedColumnName = "id")
+    private SessionEntity session;
+
     public Activity() {
     }
 
-    public Activity(UUID id, String activityName, UUID sessionId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Activity(UUID id, String activityName, LocalDateTime createdAt, LocalDateTime updatedAt, SessionEntity session) {
         this.id = id;
         this.activityName = activityName;
-        this.sessionId = sessionId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.session = session;
     }
 
     public UUID getId() {
@@ -51,12 +52,12 @@ public class Activity {
         this.activityName = activityName;
     }
 
-    public UUID getSessionId() {
-        return sessionId;
+    public SessionEntity getSession() {
+        return session;
     }
 
-    public void setSessionId(UUID sessionId) {
-        this.sessionId = sessionId;
+    public void setSession(SessionEntity session) {
+        this.session = session;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -93,9 +94,9 @@ public class Activity {
         return "Activity{" +
                 "id=" + id +
                 ", activityName='" + activityName + '\'' +
-                ", sessionId=" + sessionId +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", session=" + session +
                 '}';
     }
 }

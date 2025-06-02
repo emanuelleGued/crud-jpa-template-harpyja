@@ -21,18 +21,19 @@ public class Gestures {
     @Column(name = "coordinates")
     private String coordinates;
 
-    @Column(name = "activity_id")
-    private UUID activityId;
+    @ManyToOne
+    @JoinColumn(name = "activity_id", referencedColumnName = "id")
+    private Activity activity;
 
     public Gestures() {
     }
 
-    public Gestures(UUID id, String targetTime, String createdAt, String coordinates, UUID activityId) {
+    public Gestures(UUID id, String targetTime, String createdAt, String coordinates, Activity activity) {
         this.id = id;
         this.targetTime = targetTime;
         this.createdAt = createdAt;
         this.coordinates = coordinates;
-        this.activityId = activityId;
+        this.activity = activity;
     }
 
     public UUID getId() {
@@ -67,12 +68,12 @@ public class Gestures {
         this.coordinates = coordinates;
     }
 
-    public UUID getActivityId() {
-        return activityId;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setActivityId(UUID activityId) {
-        this.activityId = activityId;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -95,7 +96,7 @@ public class Gestures {
                 ", targetTime='" + targetTime + '\'' +
                 ", createdAt=" + createdAt +
                 ", coordinates=" + coordinates +
-                ", activityId=" + activityId +
+                ", activity=" + activity +
                 '}';
     }
 }

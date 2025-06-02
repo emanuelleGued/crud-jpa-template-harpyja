@@ -2,6 +2,8 @@ package br.edu.ifpb.es.daw.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,17 +26,24 @@ public class User {
     @Column(name = "terms_agreed")
     private boolean termsAgreed;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserOrganization> organizations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserProject> projects = new ArrayList<>();
+
     public User() {
     }
 
-    public User(UUID id, String name, String email, String password,
-                boolean emailVerified, boolean termsAgreed) {
+    public User(UUID id, String name, String email, String password, boolean emailVerified, boolean termsAgreed, List<UserOrganization> organizations, List<UserProject> projects) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.emailVerified = emailVerified;
         this.termsAgreed = termsAgreed;
+        this.organizations = organizations;
+        this.projects = projects;
     }
 
     public UUID getId() {
@@ -93,6 +102,38 @@ public class User {
         this.password = null;
     }
 
+    public List<UserOrganization> getOrganizations() {
+        return organizations;
+    }
+
+    public void setOrganizations(List<UserOrganization> organizations) {
+        this.organizations = organizations;
+    }
+
+    public List<UserProject> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<UserProject> projects) {
+        this.projects = projects;
+    }
+
+    public void addOrganization(UserOrganization userOrg) {
+        if (organizations == null) {
+            organizations = new ArrayList<>();
+        }
+        userOrg.setUser(this);
+        this.organizations.add(userOrg);
+    }
+
+    public void addProject(UserProject userProject) {
+        if (projects == null) {
+            projects = new ArrayList<>();
+        }
+        userProject.setUser(this);
+        this.projects.add(userProject);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,6 +155,8 @@ public class User {
                 ", email=" + email +
                 ", emailVerified=" + emailVerified +
                 ", termsAgreed=" + termsAgreed +
+                ", organizations=" + organizations +
+                ", projects=" + projects +
                 '}';
     }
 }

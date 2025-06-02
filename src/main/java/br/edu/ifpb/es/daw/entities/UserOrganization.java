@@ -19,13 +19,25 @@ public class UserOrganization {
     @Transient
     private ProjectRole defaultProjectRole;
 
+    @MapsId("userId")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @MapsId("organizationId")
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
+
     public UserOrganization() {
     }
 
-    public UserOrganization(UserOrganizationId id, OrganizationRole role, ProjectRole defaultProjectRole) {
+    public UserOrganization(UserOrganizationId id, OrganizationRole role, ProjectRole defaultProjectRole, User user, Organization organization) {
         this.id = id;
         this.role = role;
         this.defaultProjectRole = defaultProjectRole;
+        this.user = user;
+        this.organization = organization;
     }
 
     public UserOrganizationId getId() {
@@ -49,6 +61,21 @@ public class UserOrganization {
         this.defaultProjectRole = defaultProjectRole;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -69,6 +96,8 @@ public class UserOrganization {
                 "id=" + id +
                 ", role='" + role + '\'' +
                 ", defaultProjectRole=" + defaultProjectRole +
+                ", user=" + user +
+                ", organization=" + organization +
                 '}';
     }
 }
