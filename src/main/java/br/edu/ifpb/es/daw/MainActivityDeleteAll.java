@@ -11,12 +11,17 @@ import java.util.List;
 public class MainActivityDeleteAll {
 
     public static void main(String[] args) throws DawException {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            ActivityDAO activityDAO = new ActivityDAOImpl(emf);
-            List<Activity> activities = activityDAO.getAll();
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            ActivityDAO activityDao = new ActivityDAOImpl(emf);
+
+            System.out.println("Deletando todas as Activities...");
+            List<Activity> activities = activityDao.getAll();
             for (Activity activity : activities) {
-                activityDAO.delete(activity.getId());
+                System.out.println("Deletando Activity: " + activity.getId() +
+                        " - Session: " + (activity.getSession() != null ? activity.getSession().getId() : "null"));
+                activityDao.delete(activity.getId());
             }
+            System.out.println("Todas as Activities foram deletadas. Total: " + activities.size());
         }
     }
 }

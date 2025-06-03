@@ -11,13 +11,17 @@ import java.util.List;
 public class MainGesturesDeleteAll {
 
     public static void main(String[] args) throws DawException {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            GesturesDAO gesturesDAO = new GesturesDAOImpl(emf);
-            List<Gestures> gesturesList = gesturesDAO.getAll();
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            GesturesDAO gesturesDao = new GesturesDAOImpl(emf);
+
+            System.out.println("Deletando todos os Gestures...");
+            List<Gestures> gesturesList = gesturesDao.getAll();
             for (Gestures gesture : gesturesList) {
-                gesturesDAO.delete(gesture.getId());
+                System.out.println("Deletando Gesture: " + gesture.getId() +
+                        " - Activity: " + (gesture.getActivity() != null ? gesture.getActivity().getId() : "null"));
+                gesturesDao.delete(gesture.getId());
             }
-            System.out.println("Todos os gestos foram excluídos.");
+            System.out.println("Todos os Gestures foram deletados. Total: " + gesturesList.size());
         }
     }
 }

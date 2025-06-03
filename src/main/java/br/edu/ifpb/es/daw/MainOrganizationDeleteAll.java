@@ -11,15 +11,16 @@ import java.util.List;
 public class MainOrganizationDeleteAll {
 
     public static void main(String[] args) throws DawException {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            OrganizationDAO organizationDAO = new OrganizationDAOImpl(emf);
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            OrganizationDAO organizationDao = new OrganizationDAOImpl(emf);
 
-            List<Organization> allOrganizations = organizationDAO.getAll();
-            for (Organization org : allOrganizations) {
-                organizationDAO.delete(org.getId());
+            System.out.println("Deletando todas as Organizations...");
+            List<Organization> organizations = organizationDao.getAll();
+            for (Organization organization : organizations) {
+                System.out.println("Deletando Organization: " + organization.getId());
+                organizationDao.delete(organization.getId());
             }
-
-            System.out.println("Todas as organizações foram excluídas.");
+            System.out.println("Todas as Organizations foram deletadas. Total: " + organizations.size());
         }
     }
 }

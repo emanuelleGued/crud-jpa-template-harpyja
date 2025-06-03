@@ -1,6 +1,5 @@
 package br.edu.ifpb.es.daw;
 
-import br.edu.ifpb.es.daw.dao.PersistenciaDawException;
 import br.edu.ifpb.es.daw.dao.UserProjectDAO;
 import br.edu.ifpb.es.daw.dao.impl.UserProjectDAOImpl;
 import br.edu.ifpb.es.daw.entities.UserProject;
@@ -9,16 +8,17 @@ import jakarta.persistence.Persistence;
 import java.util.List;
 
 public class MainUserProjectDeleteAll {
-    public static void main(String[] args) throws PersistenciaDawException {
+    public static void main(String[] args) throws DawException {
         try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            UserProjectDAO dao = new UserProjectDAOImpl(emf);
-            List<UserProject> list = dao.getAll();
+            UserProjectDAO userProjectDao = new UserProjectDAOImpl(emf);
 
-            System.out.println("Encontrados " + list.size() + " registros para remover");
-            for (UserProject userProject : list) {
-                dao.delete(userProject.getId());
+            System.out.println("Deletando todos os UserProjects...");
+            List<UserProject> userProjects = userProjectDao.getAll();
+            for (UserProject userProject : userProjects) {
+                System.out.println("Deletando UserProject: " + userProject.getId());
+                userProjectDao.delete(userProject.getId());
             }
-            System.out.println("Todos os registros removidos");
+            System.out.println("Todos os UserProjects foram deletados. Total: " + userProjects.size());
         }
     }
 }

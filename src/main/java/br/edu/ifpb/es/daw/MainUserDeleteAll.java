@@ -12,11 +12,15 @@ public class MainUserDeleteAll {
 
     public static void main(String[] args) throws DawException {
         try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            UserDAO dao = new UserDAOImpl(emf);
-            List<User> users = dao.getAll();
+            UserDAO userDao = new UserDAOImpl(emf);
+
+            System.out.println("Deletando todos os Users...");
+            List<User> users = userDao.getAll();
             for (User user : users) {
-                dao.delete(user.getId());
+                System.out.println("Deletando User: " + user.getId());
+                userDao.delete(user.getId());
             }
+            System.out.println("Todos os Users foram deletados. Total: " + users.size());
         }
     }
 }
