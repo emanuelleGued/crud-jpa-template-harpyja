@@ -1,36 +1,52 @@
 package br.edu.ifpb.es.daw;
 
-import br.edu.ifpb.es.daw.dao.PersistenciaDawException;
-import br.edu.ifpb.es.daw.dao.UserOrganizationDAO;
-import br.edu.ifpb.es.daw.dao.impl.UserOrganizationDAOImpl;
+import br.edu.ifpb.es.daw.dao.OrganizationDAO;
+import br.edu.ifpb.es.daw.dao.UserDAO;
+import br.edu.ifpb.es.daw.dao.impl.OrganizationDAOImpl;
+import br.edu.ifpb.es.daw.dao.impl.UserDAOImpl;
+import br.edu.ifpb.es.daw.entities.Organization;
+import br.edu.ifpb.es.daw.entities.User;
 import br.edu.ifpb.es.daw.entities.UserOrganization;
-import br.edu.ifpb.es.daw.entities.UserOrganizationId;
-import br.edu.ifpb.es.daw.entities.enums.OrganizationRole;
-import br.edu.ifpb.es.daw.entities.enums.ProjectRole;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-
 import java.util.UUID;
 
 public class MainUserOrganizationSave {
-    public static void main(String[] args) {
-        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            UserOrganizationDAO dao = new UserOrganizationDAOImpl(emf);
 
-            UserOrganizationId id = new UserOrganizationId();
-            id.setUserId(UUID.randomUUID());
-            id.setOrganizationId(UUID.randomUUID());
+    public static void main(String[] args) throws DawException {
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            UserDAO userDao = new UserDAOImpl(emf);
+            OrganizationDAO orgDao = new OrganizationDAOImpl(emf);
+
+            User user = new User();
+            user.setId(UUID.randomUUID());
+            user.setName("Usuário com Organização");
+            user.setEmail("userorg@example.com");
+            user.setPassword("senha123");
+            user.setEmailVerified(true);
+            user.setTermsAgreed(true);
+
+            Organization org = new Organization();
+            org.setId(UUID.randomUUID());
+            org.setName("Organização do Usuário");
+
+            userDao.save(user);
+            orgDao.save(org);
 
             UserOrganization userOrg = new UserOrganization();
-            userOrg.setId(id);
-            userOrg.setRole(OrganizationRole.ADMIN);
-            userOrg.setDefaultProjectRole(ProjectRole.DEVELOPER);
+            userOrg.setUser(user);
+            userOrg.setOrganization(org);
 
-            System.out.println("Salvando: " + userOrg);
-            dao.save(userOrg);
-            System.out.println("Salvo com ID: " + userOrg.getId());
-        } catch (PersistenciaDawException e) {
-            throw new RuntimeException(e);
+            user.addOrganization(userOrg);
+            org.addUserOrganization(userOrg);
+
+            userDao.update(user);
+            orgDao.update(org);
+
+            System.out.println("Usuário após associação:");
+            System.out.println(user);
+            System.out.println("\nOrganização após associação:");
+            System.out.println(org);
         }
     }
 }

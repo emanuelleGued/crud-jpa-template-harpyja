@@ -5,29 +5,32 @@ import br.edu.ifpb.es.daw.dao.impl.UserDAOImpl;
 import br.edu.ifpb.es.daw.entities.User;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class MainUserSave {
 
     public static void main(String[] args) throws DawException {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            UserDAO dao = new UserDAOImpl(emf);
-            User user = new User();
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            UserDAO userDao = new UserDAOImpl(emf);
 
+            User user = new User();
             user.setId(UUID.randomUUID());
-            user.setName("Maria Silva");
-            user.setEmail("maria@example.com");
-            user.setPassword("senhaSegura123");
+            user.setName("Jucelino Figueredo");
+            user.setEmail("lino@example.com");
+            user.setPassword("********");
             user.setEmailVerified(true);
             user.setTermsAgreed(true);
+            user.setOrganizations(new ArrayList<>());
+            user.setProjects(new ArrayList<>());
 
+            System.out.println("Antes de salvar:");
             System.out.println(user);
 
-            dao.save(user);
+            userDao.save(user);
 
+            System.out.println("\nDepois de salvar:");
             System.out.println(user);
         }
     }
 }
-

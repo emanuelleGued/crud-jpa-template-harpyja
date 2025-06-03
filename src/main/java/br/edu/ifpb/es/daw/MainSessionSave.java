@@ -8,29 +8,41 @@ import br.edu.ifpb.es.daw.entities.Project;
 import br.edu.ifpb.es.daw.entities.SessionEntity;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class MainSessionSave {
 
     public static void main(String[] args) throws DawException {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            SessionDAO sessionDAO = new SessionDAOImpl(emf);
-            ProjectDAO projectDAO = new ProjectDAOImpl(emf);
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            SessionDAO sessionDao = new SessionDAOImpl(emf);
+            ProjectDAO projectDao = new ProjectDAOImpl(emf);
 
-            Project project = projectDAO.getAll().stream().findFirst()
-                    .orElseThrow(() -> new DawException("Nenhum projeto encontrado."));
+            Project project = new Project();
+            project.setId(UUID.randomUUID());
+            project.setName("Projeto para Sessão");
+            projectDao.save(project);
 
             SessionEntity session = new SessionEntity();
             session.setId(UUID.randomUUID());
-            session.setDeviceTime(LocalDateTime.now().minusHours(1));
+            session.setDeviceTime(LocalDateTime.now());
             session.setUploadTime(LocalDateTime.now());
-            session.setRecordingTime(LocalDateTime.now().minusMinutes(30));
+            session.setRecordingTime(LocalDateTime.now());
+            session.setProject(project);
 
-            sessionDAO.save(session);
+            System.out.println("Antes de salvar:");
+            System.out.println(session);
 
-            System.out.println("Sessão salva com sucesso: " + session.getId());
+            sessionDao.save(session);
+
+            System.out.println("\nDepois de salvar:");
+            System.out.println(session);
+
+            session.setUploadTime(LocalDateTime.now().plusHours(1));
+            sessionDao.update(session);
+
+            System.out.println("\nDepois de atualizar:");
+            System.out.println(session);
         }
     }
 }

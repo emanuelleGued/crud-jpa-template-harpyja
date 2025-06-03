@@ -1,37 +1,35 @@
 package br.edu.ifpb.es.daw;
 
 import br.edu.ifpb.es.daw.dao.ProjectDAO;
-import br.edu.ifpb.es.daw.dao.OrganizationDAO;
 import br.edu.ifpb.es.daw.dao.impl.ProjectDAOImpl;
-import br.edu.ifpb.es.daw.dao.impl.OrganizationDAOImpl;
-import br.edu.ifpb.es.daw.entities.Organization;
 import br.edu.ifpb.es.daw.entities.Project;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class MainProjectSave {
 
     public static void main(String[] args) throws DawException {
-        try (EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-            ProjectDAO projectDAO = new ProjectDAOImpl(emf);
-            OrganizationDAO organizationDAO = new OrganizationDAOImpl(emf);
-
-            Organization organization = organizationDAO.getAll().stream().findFirst()
-                    .orElseThrow(() -> new DawException("Nenhuma organização encontrada."));
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            ProjectDAO projectDao = new ProjectDAOImpl(emf);
 
             Project project = new Project();
             project.setId(UUID.randomUUID());
-            project.setName("Projeto Exemplo");
-            project.setKey("EX123");
-            project.setType("Pesquisa");
-            project.setExpiration(LocalDateTime.now().plusMonths(6));
+            project.setName("Nome do Projeto");
+            project.setKey("PROJ-" + System.nanoTime());
+            project.setType("Software");
+            project.setExpiration(LocalDateTime.now().plusYears(1));
+            project.setUsers(new ArrayList<>());
 
-            projectDAO.save(project);
+            System.out.println("Antes de salvar:");
+            System.out.println(project);
 
-            System.out.println("Projeto salvo com sucesso: " + project.getId());
+            projectDao.save(project);
+
+            System.out.println("\nDepois de salvar:");
+            System.out.println(project);
         }
     }
 }
