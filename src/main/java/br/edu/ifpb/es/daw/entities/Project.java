@@ -120,7 +120,7 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", key=" + key +

@@ -149,14 +149,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", email=" + email +
+                ", email='" + email + '\'' +
                 ", emailVerified=" + emailVerified +
                 ", termsAgreed=" + termsAgreed +
-                ", organizations=" + organizations +
-                ", projects=" + projects +
+                ", organizationsSize=" + (organizations != null ? organizations.size() : 0) +
+                ", projectsSize=" + (projects != null ? projects.size() : 0) +
                 '}';
     }
 }

@@ -92,12 +92,12 @@ public class UserOrganization {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "UserOrganization{" +
                 "id=" + id +
-                ", role='" + role + '\'' +
+                ", role=" + role +
                 ", defaultProjectRole=" + defaultProjectRole +
-                ", user=" + user +
-                ", organization=" + organization +
+                ", userId=" + (user != null ? user.getId() : null) +
+                ", organizationId=" + (organization != null ? organization.getId() : null) +
                 '}';
     }
 }

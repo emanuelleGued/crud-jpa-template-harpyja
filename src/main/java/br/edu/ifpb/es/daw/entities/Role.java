@@ -85,7 +85,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description=" + description +

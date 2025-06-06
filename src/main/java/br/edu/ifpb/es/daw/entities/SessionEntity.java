@@ -113,7 +113,7 @@ public class SessionEntity {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "Session{" +
                 "id=" + id +
                 ", deviceTime='" + deviceTime + '\'' +
                 ", uploadTime=" + uploadTime +

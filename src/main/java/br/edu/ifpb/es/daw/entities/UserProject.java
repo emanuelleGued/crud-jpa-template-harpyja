@@ -82,7 +82,7 @@ public class UserProject {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "UserProject{" +
                 "id=" + id +
                 ", role='" + role + '\'' +
                 ", user='" + user +
