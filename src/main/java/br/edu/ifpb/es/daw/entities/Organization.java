@@ -2,6 +2,8 @@ package br.edu.ifpb.es.daw.entities;
 
 import br.edu.ifpb.es.daw.entities.enums.OrganizationStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,9 @@ import java.util.UUID;
 @Table(name = "organizations")
 public class Organization {
     @Id
-    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "UUID")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 255)
@@ -127,14 +131,14 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "Organization{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", registrationDate=" + registrationDate +
                 ", status=" + status +
-                ", businessSize=" + businessSize +
-                ", projects=" + (projects != null ? projects.size() : 0) +
-                ", users=" + (users != null ? users.size() : 0) +
+                ", businessSize='" + businessSize + '\'' +
+                ", projectsSize=" + (projects != null ? projects.size() : 0) +
+                ", usersSize=" + (users != null ? users.size() : 0) +
                 '}';
     }
 }
