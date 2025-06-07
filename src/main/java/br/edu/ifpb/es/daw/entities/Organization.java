@@ -108,6 +108,10 @@ public class Organization {
         this.users = users;
     }
 
+    public void setAddress(Address address) {
+        address.setOrganization(this);
+    }
+
     public void addUserOrganization(UserOrganization userOrg) {
         if (users == null) {
             users = new ArrayList<>();
