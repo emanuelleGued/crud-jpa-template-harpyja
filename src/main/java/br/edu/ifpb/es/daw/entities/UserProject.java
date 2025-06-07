@@ -84,9 +84,9 @@ public class UserProject {
     public String toString() {
         return "UserProject{" +
                 "id=" + id +
-                ", role='" + role + '\'' +
-                ", user='" + user +
-                ", project='" + project +
+                ", role=" + role +
+                ", userId=" + (user != null ? user.getId() : null) +
+                ", projectId=" + (project != null ? project.getId() : null) +
                 '}';
     }
 
