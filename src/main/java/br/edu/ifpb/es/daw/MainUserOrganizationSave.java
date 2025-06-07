@@ -1,16 +1,11 @@
 package br.edu.ifpb.es.daw;
 
-import br.edu.ifpb.es.daw.dao.OrganizationDAO;
-import br.edu.ifpb.es.daw.dao.PersistenciaDawException;
-import br.edu.ifpb.es.daw.dao.UserDAO;
-import br.edu.ifpb.es.daw.dao.UserOrganizationDAO;
+import br.edu.ifpb.es.daw.dao.*;
+import br.edu.ifpb.es.daw.dao.impl.AddressDAOImpl;
 import br.edu.ifpb.es.daw.dao.impl.OrganizationDAOImpl;
 import br.edu.ifpb.es.daw.dao.impl.UserDAOImpl;
 import br.edu.ifpb.es.daw.dao.impl.UserOrganizationDAOImpl;
-import br.edu.ifpb.es.daw.entities.Organization;
-import br.edu.ifpb.es.daw.entities.User;
-import br.edu.ifpb.es.daw.entities.UserOrganization;
-import br.edu.ifpb.es.daw.entities.UserOrganizationId;
+import br.edu.ifpb.es.daw.entities.*;
 import br.edu.ifpb.es.daw.entities.enums.OrganizationRole;
 import br.edu.ifpb.es.daw.entities.enums.OrganizationStatus;
 import br.edu.ifpb.es.daw.entities.enums.ProjectRole;
@@ -28,26 +23,37 @@ public class MainUserOrganizationSave {
             UserDAO userDao = new UserDAOImpl(emf);
             OrganizationDAO organizationDao = new OrganizationDAOImpl(emf);
             UserOrganizationDAO userOrganizationDao = new UserOrganizationDAOImpl(emf);
+            AddressDAO addressDao = new AddressDAOImpl(emf);
 
             User user = new User();
             user.setId(UUID.randomUUID());
-            user.setName("Molly Scot");
-            user.setEmail("molly.doe@gmail.com");
+            user.setName("Jonh Done");
+            user.setEmail("done.jonh@gmail.com");
             user.setPassword("********");
             user.setEmailVerified(true);
             user.setTermsAgreed(true);
             userDao.save(user);
 
             Organization organization = new Organization();
-            organization.setName("Tunder Miffler");
+            organization.setName("Dunder Mikeer");
             organization.setRegistrationDate(LocalDateTime.now());
             organization.setStatus(OrganizationStatus.ACTIVE);
             organization.setBusinessSize("MEDIUM");
             organizationDao.save(organization);
 
+            Address address = new Address();
+            address.setId(UUID.randomUUID());
+            address.setCountry("USA");
+            address.setCity("Virginia");
+            address.setStreet("Patriot Hwy");
+            address.setZip("58000-000");
+            address.setOrganization(organization);
+            addressDao.save(address);
+
             System.out.println("Antes da associação:");
             System.out.println(user);
             System.out.println(organization);
+            System.out.println(address);
 
             try (EntityManager em = emf.createEntityManager()) {
                 EntityTransaction transaction = em.getTransaction();
@@ -56,6 +62,7 @@ public class MainUserOrganizationSave {
                 try {
                     User managedUser = em.merge(user);
                     Organization managedOrg = em.merge(organization);
+                    Address managedAddress = em.merge(address); // Adicionado
 
                     UserOrganizationId userOrganizationId = new UserOrganizationId(managedUser.getId(), managedOrg.getId());
                     UserOrganization userOrganization = new UserOrganization();
@@ -74,6 +81,7 @@ public class MainUserOrganizationSave {
                     System.out.println("\nDepois da associação:");
                     System.out.println("User ID: " + managedUser.getId());
                     System.out.println("Organization ID: " + managedOrg.getId());
+                    System.out.println("Address ID: " + managedAddress.getId());
                     System.out.println("UserOrganization: " + userOrganization.getId());
                 } catch (Exception e) {
                     if (transaction.isActive()) {
