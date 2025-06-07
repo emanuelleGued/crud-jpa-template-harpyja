@@ -123,10 +123,11 @@ public class Project {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", key=" + key +
+                ", key='" + key + '\'' +
+                ", type='" + type + '\'' +
                 ", expiration=" + expiration +
-                ", organization=" + organization +
-                ", users=" + users +
+                ", organizationId=" + (organization != null ? organization.getId() : null) +
+                ", usersSize=" + (users != null ? users.size() : 0) +
                 '}';
     }
 }
