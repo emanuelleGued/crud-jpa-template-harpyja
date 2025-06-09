@@ -25,7 +25,7 @@ public class Project {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<UserProject> users;
 
     public Project() {
@@ -127,7 +127,7 @@ public class Project {
                 ", type='" + type + '\'' +
                 ", expiration=" + expiration +
                 ", organizationId=" + (organization != null ? organization.getId() : null) +
-                ", usersSize=" + (users != null ? users.size() : 0) +
+                 ", usersSize=" + (users != null ? users.size() : 0) +
                 '}';
     }
 }
