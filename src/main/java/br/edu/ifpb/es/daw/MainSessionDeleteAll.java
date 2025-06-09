@@ -10,18 +10,16 @@ import java.util.List;
 
 public class MainSessionDeleteAll {
 
-        public static void main(String[] args) throws DawException {
-            try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
-                SessionDAO sessionDao = new SessionDAOImpl(emf);
+    public static void main(String[] args) throws DawException {
+        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
+            SessionDAO dao = new SessionDAOImpl(emf);
 
-                System.out.println("Deletando todas as Sessions...");
-                List<SessionEntity> sessions = sessionDao.getAll();
-                for (SessionEntity session : sessions) {
-                    System.out.println("Deletando Session: " + session.getId() +
-                            " - Project: " + (session.getProject() != null ? session.getProject().getId() : "null"));
-                    sessionDao.delete(session.getId());
-                }
-                System.out.println("Todas as Sessions foram deletadas. Total: " + sessions.size());
+            List<SessionEntity> sessions = dao.getAll();
+            for (SessionEntity session : sessions) {
+                dao.delete(session.getId());
             }
+
+            System.out.println("Todas as sessions foram removidas. Total: " + sessions.size());
         }
+    }
 }
