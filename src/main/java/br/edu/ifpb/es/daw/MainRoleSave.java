@@ -9,7 +9,7 @@ import jakarta.persistence.Persistence;
 import java.util.UUID;
 
 public class MainRoleSave {
-    public static void main(String[] args) throws PersistenciaDawException {
+    public static void main(String[] args) throws DawException {
         try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("daw")) {
             RoleDAO dao = new RoleDAOImpl(emf);
 
