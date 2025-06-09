@@ -32,9 +32,11 @@ public class MainGesturesSave {
             gesture.setTargetTime("2025-05-03T12:00:00");
             gesture.setCreatedAt("2025-05-03T12:00:01");
             gesture.setCoordinates("x:10,y:20,z:30");
+            gesture.setActivity(activity);
             gesturesDAO.save(gesture);
 
             System.out.println("Gesto salvo com sucesso: " + gesture.getId());
+            System.out.println(gesture);
         }
     }
 }
